@@ -1,6 +1,21 @@
 {
   "versions": [
     {
+      "version": "0.9.7",
+      "date": "2026-05-09",
+      "changes": {
+        "features": [],
+        "fixes": [
+          "修复批量导入图片弹窗显示异常"
+        ],
+        "improvements": [
+          "更新版本号至0.9.6并同步构建时间"
+        ]
+      },
+      "type": "patch",
+      "highlights": "修复批量导入图片弹窗显示异常"
+    },
+    {
       "version": "0.9.6",
       "date": "2026-05-06",
       "changes": {
@@ -770,24 +785,6 @@
       },
       "type": "patch",
       "highlights": "增强提示词优化器并修复画布输入框交互"
-    },
-    {
-      "version": "0.6.43",
-      "date": "2026-04-21",
-      "changes": {
-        "features": [
-          "add keyboard shortcuts during pen creation",
-          "扩展 gpt-image-2 图片比例支持"
-        ],
-        "fixes": [
-          "修复版本更新后懒加载 chunk 失效白屏"
-        ],
-        "improvements": [
-          "更新版本号至0.6.41并修复错误处理"
-        ]
-      },
-      "type": "patch",
-      "highlights": "add keyboard shortcuts during pen creation"
     }
   ]
 }

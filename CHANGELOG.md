@@ -1,3 +1,18 @@
+## 0.9.7 (2026-05-09)
+
+### 🩹 Fixes
+
+- 修复批量导入图片弹窗显示异常 ([77e6df4c](https://github.com/ljquan/aitu/commit/77e6df4c))
+
+### 🔧 Chores
+
+- 更新版本号至0.9.6并同步构建时间 ([9b9fb552](https://github.com/ljquan/aitu/commit/9b9fb552))
+
+### ❤️  Thank You
+
+- gongchengtu <1817063960@qq.com>
+- liquid <ljquan@qq.com>
+
 ## 0.9.6 (2026-05-06)
 
 ### 🚀 Features
