@@ -286,6 +286,7 @@ export function MediaLibraryGrid({
   onFileUpload,
   onUploadClick,
   storageStatus,
+  onSelectMultiple,
 }: MediaLibraryGridProps) {
   const {
     assets,
@@ -1418,6 +1419,25 @@ export function MediaLibraryGrid({
                 >
                   取消
                 </Button>
+                {onSelectMultiple && (
+                  <HoverTip content="将选中的素材批量插入画布" placement="bottom">
+                    <Button
+                      variant="base"
+                      theme="primary"
+                      size="small"
+                      icon={<PlusCircle size={16} />}
+                      disabled={filteredSelectedCount === 0}
+                      onClick={() => {
+                        if (filteredSelectedAssets.length > 0) {
+                          void onSelectMultiple(filteredSelectedAssets);
+                        }
+                      }}
+                      data-track="grid_batch_insert"
+                    >
+                      批量插入 ({filteredSelectedCount})
+                    </Button>
+                  </HoverTip>
+                )}
                 <Button
                   variant="base"
                   theme="primary"

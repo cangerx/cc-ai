@@ -217,6 +217,7 @@ export interface MediaLibraryConfig {
   filterType?: AssetType; // 限制显示的类型（SELECT模式）
   filterCategory?: AssetCategory; // 限制显示的业务类别（SELECT模式）
   onSelect?: (asset: Asset) => void | Promise<void>; // 选择回调（SELECT模式）
+  onSelectMultiple?: (assets: Asset[]) => void | Promise<void>; // 批量选择回调
   keepProjectDrawerOpen?: boolean; // 打开素材库时保留项目抽屉
 }
 
@@ -340,6 +341,8 @@ export interface MediaLibraryModalProps {
   filterType?: AssetType;
   filterCategory?: AssetCategory;
   onSelect?: (asset: Asset) => void | Promise<void>;
+  /** 批量选择回调（素材库批量选择模式下使用） */
+  onSelectMultiple?: (assets: Asset[]) => void | Promise<void>;
   /** 自定义选择按钮文本，默认为"使用到画板" */
   selectButtonText?: string;
 }
@@ -393,6 +396,7 @@ export interface MediaLibraryGridProps {
   onFileUpload?: (files: FileList) => void;
   onUploadClick?: () => void;
   storageStatus?: StorageStatus | null;
+  onSelectMultiple?: (assets: Asset[]) => void | Promise<void>;
 }
 
 export interface MediaLibraryStorageBarProps {

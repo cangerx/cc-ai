@@ -150,7 +150,7 @@ const ChatDrawer = lazy(() =>
 
 type MediaLibraryOpenConfig = Pick<
   MediaLibraryModalProps,
-  'mode' | 'filterType' | 'onSelect' | 'selectButtonText'
+  'mode' | 'filterType' | 'onSelect' | 'onSelectMultiple' | 'selectButtonText'
 > & {
   keepProjectDrawerOpen?: boolean;
 };

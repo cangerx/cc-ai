@@ -28,6 +28,7 @@ export function MediaLibraryModal({
   filterType,
   filterCategory,
   onSelect,
+  onSelectMultiple,
   selectButtonText,
 }: MediaLibraryModalProps) {
   const {
@@ -152,6 +153,29 @@ export function MediaLibraryModal({
       }
     },
     [isSelecting, onClose, onSelect],
+  );
+
+  // 处理批量使用
+  const handleBatchUse = useCallback(
+    async (assets: Asset[]) => {
+      if (!onSelectMultiple || isSelecting) {
+        return;
+      }
+      if (assets.length === 0) {
+        return;
+      }
+
+      try {
+        setIsSelecting(true);
+        await onSelectMultiple(assets);
+        onClose();
+      } finally {
+        if (isMountedRef.current) {
+          setIsSelecting(false);
+        }
+      }
+    },
+    [isSelecting, onClose, onSelectMultiple],
   );
 
   const handleDownloadAsset = useCallback(async (asset: Asset) => {
@@ -340,6 +364,7 @@ export function MediaLibraryModal({
               onFileUpload={handleFileUpload}
               onUploadClick={handleUploadClick}
               storageStatus={storageStatus}
+              onSelectMultiple={onSelectMultiple ? handleBatchUse : undefined}
             />
           </div>
 

@@ -124,6 +124,7 @@ export function DrawnixDeferredFeatures({
             mode={mediaLibraryConfig?.mode}
             filterType={mediaLibraryConfig?.filterType}
             onSelect={mediaLibraryConfig?.onSelect}
+            onSelectMultiple={mediaLibraryConfig?.onSelectMultiple}
             selectButtonText={mediaLibraryConfig?.selectButtonText}
           />
         </Suspense>

@@ -224,7 +224,7 @@ export const ReferenceImageUpload: React.FC<ReferenceImageUploadProps> = ({
     event.target.value = '';
   }, [handleFiles, slotLabels, currentSlot]);
 
-  // Handle media library selection
+  // Handle media library selection (single)
   const handleMediaLibrarySelect = useCallback(async (asset: Asset) => {
     try {
       const response = await fetch(asset.url);
@@ -238,7 +238,6 @@ export const ReferenceImageUpload: React.FC<ReferenceImageUploadProps> = ({
         };
 
         if (slotLabels) {
-          // Slot mode: replace image at specific slot
           const updatedImages = [...images];
           updatedImages[currentSlot] = newImage;
           onImagesChange(updatedImages.filter(Boolean));
@@ -262,6 +261,62 @@ export const ReferenceImageUpload: React.FC<ReferenceImageUploadProps> = ({
       setShowMediaLibrary(false);
     }
   }, [images, multiple, maxCount, slotLabels, currentSlot, onImagesChange, onError, t]);
+
+  // Handle media library batch selection
+  const handleMediaLibrarySelectMultiple = useCallback(async (assets: Asset[]) => {
+    if (assets.length === 0) return;
+
+    // Check max count for batch
+    if (multiple && !slotLabels && images.length + assets.length > maxCount) {
+      MessagePlugin.warning(t.maxCountReached.replace('{count}', String(maxCount)));
+      // Truncate to fit
+      const available = maxCount - images.length;
+      if (available <= 0) {
+        setShowMediaLibrary(false);
+        return;
+      }
+      assets = assets.slice(0, available);
+    }
+
+    try {
+      const newImages: ReferenceImage[] = [];
+
+      for (const asset of assets) {
+        try {
+          const response = await fetch(asset.url);
+          const blob = await response.blob();
+          const dataUrl = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+          });
+
+          newImages.push({
+            url: dataUrl,
+            name: asset.name,
+          });
+        } catch (err) {
+          console.error('[ReferenceImageUpload] Failed to convert asset:', asset.name, err);
+        }
+      }
+
+      if (newImages.length > 0) {
+        if (multiple) {
+          onImagesChange([...images, ...newImages]);
+        } else {
+          onImagesChange(newImages.slice(0, 1));
+        }
+      }
+
+      setShowMediaLibrary(false);
+      onError?.(null);
+    } catch (error) {
+      console.error('[ReferenceImageUpload] Batch selection failed:', error);
+      onError?.(t.loadFailed);
+      setShowMediaLibrary(false);
+    }
+  }, [images, multiple, maxCount, slotLabels, onImagesChange, onError, t]);
 
   // Handle drag events
   const handleDragEnter = useCallback((e: React.DragEvent) => {
@@ -576,6 +631,7 @@ export const ReferenceImageUpload: React.FC<ReferenceImageUploadProps> = ({
             mode={SelectionMode.SELECT}
             filterType={AssetType.IMAGE}
             onSelect={handleMediaLibrarySelect}
+            onSelectMultiple={multiple ? handleMediaLibrarySelectMultiple : undefined}
           />
         )}
       </div>

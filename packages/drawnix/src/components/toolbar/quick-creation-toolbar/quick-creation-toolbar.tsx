@@ -62,6 +62,7 @@ export interface QuickCreationToolbarProps {
     mode?: SelectionMode;
     filterType?: AssetType;
     onSelect?: (asset: Asset) => void | Promise<void>;
+    onSelectMultiple?: (assets: Asset[]) => void | Promise<void>;
     selectButtonText?: string;
   }) => void;
 }
@@ -229,6 +230,50 @@ export const QuickCreationToolbar: React.FC<QuickCreationToolbarProps> = ({
         t('toolbar.assetInsertFailed' as any) || '插入素材失败'
       );
     }
+  };
+
+  const handleInsertMultipleAssets = async (assets: Asset[]) => {
+    if (assets.length === 0) return;
+
+    let successCount = 0;
+    let failCount = 0;
+
+    for (const asset of assets) {
+      try {
+        if (asset.type === AssetType.IMAGE) {
+          await insertImageFromUrl(board, asset.url);
+        } else if (asset.type === AssetType.VIDEO) {
+          await insertVideoFromUrl(board, asset.url);
+        } else if (asset.type === AssetType.AUDIO) {
+          await insertAudioFromUrl(board, asset.url, {
+            title: asset.name,
+            duration: asset.duration,
+            previewImageUrl: asset.thumbnail,
+            prompt: asset.prompt,
+            mv: asset.modelName,
+            clipId: asset.clipId,
+            providerTaskId: asset.providerTaskId,
+          });
+        }
+        successCount++;
+      } catch (error) {
+        console.error('Failed to insert asset:', asset.name, error);
+        failCount++;
+      }
+    }
+
+    if (failCount === 0) {
+      MessagePlugin.success(
+        `已成功插入 ${successCount} 个素材到画板`
+      );
+    } else {
+      MessagePlugin.warning(
+        `已插入 ${successCount} 个素材，${failCount} 个失败`
+      );
+    }
+
+    setMediaLibraryOpen(false);
+    onClose();
   };
 
   const handleMediaLibraryClick = () => {
@@ -452,6 +497,7 @@ export const QuickCreationToolbar: React.FC<QuickCreationToolbarProps> = ({
             }}
             mode={SelectionMode.SELECT}
             onSelect={handleInsertAsset}
+            onSelectMultiple={handleInsertMultipleAssets}
             selectButtonText={t('toolbar.insert' as any) || '插入'}
           />
         </Suspense>
