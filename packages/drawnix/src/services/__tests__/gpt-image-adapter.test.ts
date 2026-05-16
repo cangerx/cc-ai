@@ -12,7 +12,7 @@ const tinyPngBase64Only =
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
 
 describe('gpt-image-adapter', () => {
-  it('builds official GPT Image generation JSON without default response_format', () => {
+  it('builds official GPT Image generation JSON with url response_format by default', () => {
     const body = buildGPTImageGenerationBody({
       model: 'gpt-image-2',
       prompt: 'Draw a clean product photo',
@@ -22,6 +22,7 @@ describe('gpt-image-adapter', () => {
         quality: 'high',
         output_format: 'webp',
         output_compression: 80,
+        response_format: 'url',
         n: 2,
       },
     });
@@ -29,6 +30,7 @@ describe('gpt-image-adapter', () => {
     expect(body).toEqual({
       model: 'gpt-image-2',
       prompt: 'Draw a clean product photo',
+      response_format: 'url',
       size: '2736x1536',
       quality: 'high',
       output_format: 'webp',
@@ -50,6 +52,7 @@ describe('gpt-image-adapter', () => {
     expect(body).toEqual({
       model: 'gpt-image-2',
       prompt: 'Draw a clean product photo',
+      response_format: 'url',
       size: '2368x1776',
     });
   });
@@ -67,6 +70,7 @@ describe('gpt-image-adapter', () => {
     expect(body).toEqual({
       model: 'gpt-image-2',
       prompt: 'Draw a clean product photo',
+      response_format: 'url',
       size: '2368x1776',
     });
   });
@@ -85,6 +89,7 @@ describe('gpt-image-adapter', () => {
     expect(body).toEqual({
       model: 'gpt-image-1',
       prompt: 'Draw a clean product photo',
+      response_format: 'url',
       size: '1536x1024',
       quality: 'high',
     });
@@ -135,7 +140,7 @@ describe('gpt-image-adapter', () => {
     expect(body.get('mask')).toBeInstanceOf(Blob);
   });
 
-  it('omits official GPT Image edit form data response_format by default', async () => {
+  it('defaults official GPT Image edit form data response_format to url', async () => {
     const body = await buildGPTImageEditFormData({
       model: 'gpt-image-2',
       prompt: 'Change the style',
@@ -143,7 +148,7 @@ describe('gpt-image-adapter', () => {
       generationMode: 'image_edit',
     });
 
-    expect(body.get('response_format')).toBeNull();
+    expect(body.get('response_format')).toBe('url');
   });
 
   it('accepts params.mask_image as a compatible edit mask input', async () => {
@@ -355,8 +360,8 @@ describe('gpt-image-adapter', () => {
     expect(JSON.parse(String(init?.body))).toEqual({
       model: 'gpt-image-2',
       prompt: 'Draw a clean product photo',
-      size: '1024x1024',
       response_format: 'url',
+      size: '1024x1024',
     });
   });
 
@@ -422,7 +427,7 @@ describe('gpt-image-adapter', () => {
     const formData = init?.body as FormData;
     expect(formData.get('model')).toBe('gpt-image-2');
     expect(formData.get('prompt')).toBe('Change the style');
-    expect(formData.get('response_format')).toBeNull();
+    expect(formData.get('response_format')).toBe('url');
     expect(formData.get('size')).toBe('1024x1024');
     expect(formData.getAll('image[]')).toHaveLength(1);
     expect(formData.get('image[]')).toBeInstanceOf(Blob);
