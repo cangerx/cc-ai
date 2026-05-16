@@ -286,6 +286,9 @@ export function MediaLibraryGrid({
   onFileUpload,
   onUploadClick,
   storageStatus,
+  onSelectMultiple,
+  batchSelectButtonText = '批量插入',
+  batchSelecting = false,
 }: MediaLibraryGridProps) {
   const {
     assets,
@@ -1418,6 +1421,26 @@ export function MediaLibraryGrid({
                 >
                   取消
                 </Button>
+                {onSelectMultiple && (
+                  <HoverTip content={batchSelectButtonText} placement="bottom">
+                    <Button
+                      variant="base"
+                      theme="primary"
+                      size="small"
+                      icon={<PlusCircle size={16} />}
+                      disabled={filteredSelectedCount === 0 || batchSelecting}
+                      loading={batchSelecting}
+                      onClick={() => {
+                        if (!batchSelecting && filteredSelectedAssets.length > 0) {
+                          void onSelectMultiple(filteredSelectedAssets);
+                        }
+                      }}
+                      data-track="grid_batch_insert"
+                    >
+                      {batchSelectButtonText} ({filteredSelectedCount})
+                    </Button>
+                  </HoverTip>
+                )}
                 <Button
                   variant="base"
                   theme="primary"
