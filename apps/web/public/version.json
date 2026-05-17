@@ -1,6 +1,6 @@
 {
   "version": "0.9.8",
-  "buildTime": "2026-05-17T06:20:47.527Z",
+  "buildTime": "2026-05-17T06:20:49.171Z",
   "gitCommit": "unknown",
   "changelog": [
     "support bulk media insertion and image generation compatibility",
