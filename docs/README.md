@@ -22,6 +22,7 @@
 
 - [品牌规范](./BRAND_GUIDELINES.md)：Logo、色彩和品牌用法。
 - [品牌设计](./BRAND_DESIGN.md)：品牌方向与设计方案。
+- [UI 配色系统与素材库状态架构经验](./UI_COLOR_SYSTEM_LESSONS.md)：全局 token、选中态、多选入口收敛和 AI 编程约束。
 - [PWA 图标](./PWA_ICONS.md)：图标生成和 manifest 相关配置。
 - [Z-Index 指南](./Z_INDEX_GUIDE.md)：弹层层级和遮挡问题处理。
 - [TDesign 主题接入](./TDESIGN_THEME_INTEGRATION.md)：组件主题集成经验。

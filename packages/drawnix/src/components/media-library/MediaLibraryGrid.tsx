@@ -33,7 +33,6 @@ import {
   Plus,
   Download,
   Eye,
-  PlusCircle,
   CloudUpload,
   Heart,
   ListMusic,
@@ -1831,7 +1830,7 @@ export function MediaLibraryGrid({
                       onClick={() => onDoubleClick(selectedAsset)}
                       data-track="mobile_insert"
                     >
-                      <PlusCircle size={18} />
+                      <Plus size={18} />
                     </button>
                   </HoverTip>
                 )}
