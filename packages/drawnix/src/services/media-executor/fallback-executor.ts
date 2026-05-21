@@ -580,43 +580,6 @@ export class FallbackMediaExecutor implements IMediaExecutor {
       );
     }
 
-    // 专用 adapter 路由（mj-imagine 等非 gemini 模型）
-    const imageAdapter = resolveAdapterForInvocation(
-      'image',
-      modelName,
-      modelRef || null,
-      invocationOptions
-    );
-    if (imageAdapter && imageAdapter.kind === 'image') {
-      return executeImageViaAdapter(
-        taskId,
-        imageAdapter,
-        {
-          prompt,
-          model: modelName,
-          modelRef: modelRef || null,
-          size,
-          resolution: params.resolution,
-          quality,
-          count,
-          referenceImages,
-          generationMode:
-            params.generationMode ||
-            (shouldUseEditSchema ? 'image_to_image' : 'text_to_image'),
-          maskImage: params.maskImage,
-          inputFidelity: params.inputFidelity,
-          background: params.background,
-          outputFormat: params.outputFormat,
-          outputCompression: params.outputCompression,
-          params: params.params,
-          assetMetadata: params.assetMetadata,
-          preferredRequestSchema: invocationOptions.preferredRequestSchema,
-        },
-        options,
-        startTime
-      );
-    }
-
     // 收集参考图原始 URL（用于日志记录）
     const logRefUrls =
       (params.referenceImages && params.referenceImages.length > 0
