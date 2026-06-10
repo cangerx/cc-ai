@@ -38,6 +38,8 @@ export interface GridDetectionResult {
   colLines: number[];
   /** 白边偏移量，用于精确分割 */
   borderOffset?: { left: number; top: number; right: number; bottom: number };
+  /** 使用检测到的线坐标裁剪，避免硬边界兜底被重新等分 */
+  useDetectedLines?: boolean;
 }
 
 /**
@@ -355,6 +357,11 @@ function verifyGridConfig(
 interface HardSeamStats {
   mean: number;
   strongRatio: number;
+  edgeBalance: number;
+}
+
+interface HardSeamMatch extends HardSeamStats {
+  position: number;
 }
 
 interface HardSeamGridConfig {
@@ -363,15 +370,17 @@ interface HardSeamGridConfig {
   minMean?: number;
   minStrongRatio?: number;
   score?: number;
+  rowLines?: number[];
+  colLines?: number[];
 }
 
 const HARD_SEAM_GRID_CONFIGS = [
-  { rows: 2, cols: 2 },
-  { rows: 2, cols: 3 },
-  { rows: 3, cols: 2 },
-  { rows: 2, cols: 4, minMean: 42, minStrongRatio: 0.4 },
-  { rows: 4, cols: 2, minMean: 42, minStrongRatio: 0.4 },
-  { rows: 3, cols: 3, minMean: 48, minStrongRatio: 0.46 },
+  { rows: 2, cols: 2, minMean: 42, minStrongRatio: 0.46 },
+  { rows: 2, cols: 3, minMean: 44, minStrongRatio: 0.48 },
+  { rows: 3, cols: 2, minMean: 44, minStrongRatio: 0.48 },
+  { rows: 2, cols: 4, minMean: 46, minStrongRatio: 0.5 },
+  { rows: 4, cols: 2, minMean: 46, minStrongRatio: 0.5 },
+  { rows: 3, cols: 3, minMean: 50, minStrongRatio: 0.52 },
 ];
 
 function isReasonableHardSeamGrid(
@@ -404,7 +413,7 @@ function getVerticalHardSeamStats(
 ): HardSeamStats {
   const { width, height, data } = imageData;
   if (x <= 0 || x >= width) {
-    return { mean: 0, strongRatio: 0 };
+    return { mean: 0, strongRatio: 0, edgeBalance: 0 };
   }
 
   const yStart = Math.floor(height * 0.03);
@@ -413,6 +422,8 @@ function getVerticalHardSeamStats(
   let total = 0;
   let strong = 0;
   let count = 0;
+  let longestStrongRun = 0;
+  let currentStrongRun = 0;
 
   for (let y = yStart; y < yEnd; y += step) {
     const leftIdx = (y * width + x - 1) * 4;
@@ -421,13 +432,21 @@ function getVerticalHardSeamStats(
     total += distance;
     if (distance >= 42) {
       strong++;
+      currentStrongRun++;
+      longestStrongRun = Math.max(longestStrongRun, currentStrongRun);
+    } else {
+      currentStrongRun = 0;
     }
     count++;
   }
 
   return count > 0
-    ? { mean: total / count, strongRatio: strong / count }
-    : { mean: 0, strongRatio: 0 };
+    ? {
+        mean: total / count,
+        strongRatio: strong / count,
+        edgeBalance: longestStrongRun / count,
+      }
+    : { mean: 0, strongRatio: 0, edgeBalance: 0 };
 }
 
 function getHorizontalHardSeamStats(
@@ -436,7 +455,7 @@ function getHorizontalHardSeamStats(
 ): HardSeamStats {
   const { width, height, data } = imageData;
   if (y <= 0 || y >= height) {
-    return { mean: 0, strongRatio: 0 };
+    return { mean: 0, strongRatio: 0, edgeBalance: 0 };
   }
 
   const xStart = Math.floor(width * 0.03);
@@ -445,6 +464,8 @@ function getHorizontalHardSeamStats(
   let total = 0;
   let strong = 0;
   let count = 0;
+  let longestStrongRun = 0;
+  let currentStrongRun = 0;
 
   for (let x = xStart; x < xEnd; x += step) {
     const topIdx = ((y - 1) * width + x) * 4;
@@ -453,46 +474,50 @@ function getHorizontalHardSeamStats(
     total += distance;
     if (distance >= 42) {
       strong++;
+      currentStrongRun++;
+      longestStrongRun = Math.max(longestStrongRun, currentStrongRun);
+    } else {
+      currentStrongRun = 0;
     }
     count++;
   }
 
   return count > 0
-    ? { mean: total / count, strongRatio: strong / count }
-    : { mean: 0, strongRatio: 0 };
+    ? {
+        mean: total / count,
+        strongRatio: strong / count,
+        edgeBalance: longestStrongRun / count,
+      }
+    : { mean: 0, strongRatio: 0, edgeBalance: 0 };
 }
 
 function isHardSeam(
   stats: HardSeamStats,
   config?: Pick<HardSeamGridConfig, 'minMean' | 'minStrongRatio'>
 ): boolean {
-  if (
-    config?.minMean !== undefined &&
-    config?.minStrongRatio !== undefined
-  ) {
-    return (
-      stats.mean >= config.minMean &&
-      stats.strongRatio >= config.minStrongRatio
-    );
-  }
-
   return (
-    (stats.strongRatio >= 0.42 && stats.mean >= 34) ||
-    (stats.strongRatio >= 0.32 && stats.mean >= 48)
+    stats.edgeBalance >= 0.18 &&
+    stats.mean >= (config?.minMean ?? 42) &&
+    stats.strongRatio >= (config?.minStrongRatio ?? 0.46)
   );
 }
 
 function getBestVerticalHardSeamStats(
   imageData: ImageData,
   expectedX: number
-): HardSeamStats {
+): HardSeamMatch {
   const tolerance = Math.max(4, Math.floor(imageData.width * 0.006));
-  let best: HardSeamStats = { mean: 0, strongRatio: 0 };
+  let best: HardSeamMatch = {
+    mean: 0,
+    strongRatio: 0,
+    edgeBalance: 0,
+    position: expectedX,
+  };
 
   for (let x = expectedX - tolerance; x <= expectedX + tolerance; x++) {
     const stats = getVerticalHardSeamStats(imageData, x);
     if (stats.mean * stats.strongRatio > best.mean * best.strongRatio) {
-      best = stats;
+      best = { ...stats, position: x };
     }
   }
 
@@ -502,14 +527,19 @@ function getBestVerticalHardSeamStats(
 function getBestHorizontalHardSeamStats(
   imageData: ImageData,
   expectedY: number
-): HardSeamStats {
+): HardSeamMatch {
   const tolerance = Math.max(4, Math.floor(imageData.height * 0.006));
-  let best: HardSeamStats = { mean: 0, strongRatio: 0 };
+  let best: HardSeamMatch = {
+    mean: 0,
+    strongRatio: 0,
+    edgeBalance: 0,
+    position: expectedY,
+  };
 
   for (let y = expectedY - tolerance; y <= expectedY + tolerance; y++) {
     const stats = getHorizontalHardSeamStats(imageData, y);
     if (stats.mean * stats.strongRatio > best.mean * best.strongRatio) {
-      best = stats;
+      best = { ...stats, position: y };
     }
   }
 
@@ -537,6 +567,8 @@ function detectHardSeamGridFromImage(
     const cellWidth = width / config.cols;
     const cellHeight = height / config.rows;
     const seamStats: HardSeamStats[] = [];
+    const colLines: number[] = [];
+    const rowLines: number[] = [];
     let valid = true;
 
     for (let col = 1; col < config.cols; col++) {
@@ -549,6 +581,7 @@ function detectHardSeamGridFromImage(
         break;
       }
       seamStats.push(stats);
+      colLines.push(stats.position);
     }
 
     if (!valid) {
@@ -565,6 +598,7 @@ function detectHardSeamGridFromImage(
         break;
       }
       seamStats.push(stats);
+      rowLines.push(stats.position);
     }
 
     if (!valid || seamStats.length === 0) {
@@ -573,12 +607,12 @@ function detectHardSeamGridFromImage(
 
     const score =
       seamStats.reduce(
-        (sum, stats) => sum + stats.mean * stats.strongRatio,
+        (sum, stats) => sum + stats.mean * stats.strongRatio * stats.edgeBalance,
         0
       ) / seamStats.length;
 
     if (!bestConfig || score > (bestConfig.score ?? 0)) {
-      bestConfig = { ...config, score };
+      bestConfig = { ...config, rowLines, colLines, score };
     }
   }
 
@@ -788,24 +822,13 @@ async function detectGridLinesInternal(
     : detectHardSeamGridFromImage(imageData, width, height);
 
   if (hardSeamGrid) {
-    const cellWidth = width / hardSeamGrid.cols;
-    const cellHeight = height / hardSeamGrid.rows;
-    const hardSeamRowLines: number[] = [];
-    const hardSeamColLines: number[] = [];
-
-    for (let i = 1; i < hardSeamGrid.rows; i++) {
-      hardSeamRowLines.push(Math.round(i * cellHeight));
-    }
-    for (let i = 1; i < hardSeamGrid.cols; i++) {
-      hardSeamColLines.push(Math.round(i * cellWidth));
-    }
-
     return {
       detection: {
         rows: hardSeamGrid.rows,
         cols: hardSeamGrid.cols,
-        rowLines: hardSeamRowLines,
-        colLines: hardSeamColLines,
+        rowLines: hardSeamGrid.rowLines ?? [],
+        colLines: hardSeamGrid.colLines ?? [],
+        useDetectedLines: true,
       },
       img,
       imageData,
@@ -915,6 +938,10 @@ function isUniformGridLayout(
   height: number
 ): boolean {
   const { rowLines, colLines } = detection;
+
+  if (detection.useDetectedLines) {
+    return false;
+  }
 
   // 必须同时有行和列的分割线才算标准宫格
   if (rowLines.length === 0 || colLines.length === 0) {
@@ -1178,7 +1205,8 @@ export async function splitImageByLines(
       // 根据图片类型选择 padding
       // 透明图片或严格模式：不使用 padding
       // 普通图片：使用较小的 padding（分割线通常较窄）
-      const splitLinePadding = hasAlpha || trimMode === 'strict' ? 0 : 2;
+      const splitLinePadding =
+        detection.useDetectedLines || hasAlpha || trimMode === 'strict' ? 0 : 2;
 
       const sx = x1 + (col > 0 ? splitLinePadding : 0);
       const sy = y1 + (row > 0 ? splitLinePadding : 0);
