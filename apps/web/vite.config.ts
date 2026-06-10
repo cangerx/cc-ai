@@ -12,6 +12,9 @@ import { visualizer } from 'rollup-plugin-visualizer';
 const require = createRequire(import.meta.url);
 const workspaceRoot = path.resolve(__dirname, '../..');
 
+const shouldRewriteEntryAssetsToCDN =
+  process.env.AITU_REWRITE_ENTRY_ASSETS_TO_CDN !== '0';
+
 // Read version from public/version.json
 const versionPath = path.resolve(__dirname, 'public/version.json');
 let appVersion = '0.0.0';
@@ -999,6 +1002,13 @@ function rewriteEntryAssetsToCDNPlugin(): Plugin {
           return;
         }
 
+        if (!shouldRewriteEntryAssetsToCDN) {
+          console.log(
+            '[EntryAssets] Keeping entry asset tags local because AITU_REWRITE_ENTRY_ASSETS_TO_CDN=0'
+          );
+          return;
+        }
+
         const html = (await readFileWithFdRetry(
           indexHtmlPath,
           'utf8'
@@ -1073,6 +1083,13 @@ function rewriteManifestAssetsToCDNPlugin(): Plugin {
         const manifestPath = path.join(outDir, 'manifest.json');
 
         if (!fs.existsSync(manifestPath)) {
+          return;
+        }
+
+        if (!shouldRewriteEntryAssetsToCDN) {
+          console.log(
+            '[ManifestAssets] Keeping manifest asset urls local because AITU_REWRITE_ENTRY_ASSETS_TO_CDN=0'
+          );
           return;
         }
 
