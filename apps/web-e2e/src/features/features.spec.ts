@@ -111,20 +111,19 @@ test.describe('@feature 功能测试', () => {
     await page.waitForTimeout(1500);
 
     // === 项目抽屉 ===
-    const openProjectBtn = page.getByRole('button', { name: '打开项目' });
-
-    // 如果显示"打开项目"按钮，点击打开
-    if (await openProjectBtn.isVisible().catch(() => false)) {
-      await openProjectBtn.click();
-      await page.waitForTimeout(500);
-    }
-
-    // 验证项目抽屉已打开（必须通过）
     const projectTitle = page.getByRole('heading', {
       name: '项目',
       level: 3,
       exact: true,
     });
+    const openProjectBtn = page.getByRole('button', { name: '打开项目' });
+
+    if (!(await projectTitle.isVisible().catch(() => false))) {
+      await openProjectBtn.click();
+      await page.waitForTimeout(500);
+    }
+
+    // 验证项目抽屉已打开（必须通过）
     await expect(projectTitle).toBeVisible();
 
     // 新建画板按钮（必须通过）
@@ -142,18 +141,18 @@ test.describe('@feature 功能测试', () => {
     await expect(exportBtn).toBeVisible();
 
     // === 工具箱 ===
-    const openToolboxBtn = page.getByRole('button', { name: '打开工具箱' });
-    if (await openToolboxBtn.isVisible().catch(() => false)) {
-      await openToolboxBtn.click();
-      await page.waitForTimeout(500);
-    }
-
-    // 验证工具箱已打开（必须通过）
     const toolboxTitle = page.getByRole('heading', {
       name: '工具箱',
       level: 3,
       exact: true,
     });
+    const openToolboxBtn = page.getByRole('button', { name: '打开工具箱' });
+    if (!(await toolboxTitle.isVisible().catch(() => false))) {
+      await openToolboxBtn.click();
+      await page.waitForTimeout(500);
+    }
+
+    // 验证工具箱已打开（必须通过）
     await expect(toolboxTitle).toBeVisible();
 
     // 工具分类按钮（必须通过）

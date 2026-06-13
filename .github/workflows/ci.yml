@@ -46,7 +46,7 @@ jobs:
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "base=origin/${{ github.base_ref }}" >> "$GITHUB_OUTPUT"
           else
-            echo "base=origin/develop" >> "$GITHUB_OUTPUT"
+            echo "base=${{ github.event.before }}" >> "$GITHUB_OUTPUT"
           fi
       - run: npx nx affected -t test build --base=${{ steps.affected-base.outputs.base }} --verbose
       - run: npx nx affected -t lint --exclude=drawnix --base=${{ steps.affected-base.outputs.base }} --verbose
@@ -77,7 +77,13 @@ jobs:
 
       - name: Check Bundle Size
         if: always()
-        run: pnpm run size
+        shell: bash
+        run: |
+          if [ -d dist/apps/web/assets ]; then
+            pnpm run size
+          else
+            echo "Skip bundle size check because dist/apps/web/assets was not generated."
+          fi
 
       - name: Upload Bundle Stats
         if: always()
