@@ -509,6 +509,7 @@
       }
 
       .model-grid,
+      .deploy-grid,
       .feature-grid,
       .work-grid,
       .faq {
@@ -520,9 +521,85 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .deploy-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
       .model-panel {
         border-radius: 20px;
         padding: 32px;
+      }
+
+      .deploy-card {
+        display: grid;
+        gap: 18px;
+        padding: 28px;
+        border-radius: 22px;
+        border: 1px solid rgba(249, 115, 22, 0.18);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.92),
+          rgba(255, 247, 237, 0.82)
+        );
+        box-shadow: 0 18px 36px rgba(124, 45, 18, 0.07);
+      }
+
+      .deploy-card h3,
+      .deploy-card p,
+      .deploy-card ul,
+      .deploy-card pre {
+        margin: 0;
+      }
+
+      .deploy-card ul {
+        padding-left: 18px;
+        color: var(--muted);
+      }
+
+      .deploy-card li + li {
+        margin-top: 8px;
+      }
+
+      .deploy-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .deploy-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 30px;
+        padding: 0 12px;
+        border-radius: 999px;
+        background: rgba(249, 115, 22, 0.1);
+        border: 1px solid rgba(249, 115, 22, 0.2);
+        color: #c2410c;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .deploy-code {
+        overflow: auto;
+        padding: 14px 16px;
+        border-radius: 16px;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        background: #fff;
+        color: #0f172a;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .deploy-code code {
+        font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono',
+          monospace;
+      }
+
+      .deploy-note {
+        color: #475569;
+        font-size: 13px;
       }
 
       .model-panel:hover {
@@ -695,6 +772,7 @@
       @media (max-width: 860px) {
         .hero,
         .model-grid,
+        .deploy-grid,
         .feature-grid,
         .work-grid,
         .faq,
@@ -776,6 +854,12 @@
             data-seo-track="home_nav_click"
             data-seo-target="workflow"
             >使用流程</a
+          >
+          <a
+            href="#deploy"
+            data-seo-track="home_nav_click"
+            data-seo-target="deploy"
+            >部署安装</a
           >
           <a
             href="/user-manual/index.html"
@@ -1047,6 +1131,68 @@
             </div>
           </li>
         </ol>
+      </section>
+
+      <section class="section" id="deploy">
+        <div class="section-head">
+          <div>
+            <h2>三种常用部署安装方式</h2>
+            <p class="section-lead">
+              Open-CAI 既可以直接容器化运行，也可以打包成发布包上传服务器，还可以放到宝塔面板里按静态站点方式快速上线。
+            </p>
+          </div>
+        </div>
+        <div class="deploy-grid">
+          <article class="deploy-card">
+            <div class="deploy-top">
+              <h3>Docker 部署</h3>
+              <span class="deploy-badge">推荐快速上线</span>
+            </div>
+            <p>
+              仓库根目录自带 `Dockerfile`。构建后会把 `dist/apps/web`
+              作为静态站点产物运行，默认监听容器 `80` 端口。
+            </p>
+            <pre class="deploy-code"><code>docker build -t open-cai .
+docker run -d --name open-cai -p 8080:80 open-cai</code></pre>
+            <p class="deploy-note">
+              适合云服务器、容器平台和需要快速回滚的场景。
+            </p>
+          </article>
+          <article class="deploy-card">
+            <div class="deploy-top">
+              <h3>二进制一键安装</h3>
+              <span class="deploy-badge">发布包部署</span>
+            </div>
+            <p>
+              先构建，再生成发布包 `web-&lt;version&gt;.tar.gz`。上传后解压即可用于
+              Nginx、静态托管或面板部署。
+            </p>
+            <pre class="deploy-code"><code>pnpm build:web
+node scripts/create-deploy-package.js</code></pre>
+            <ul>
+              <li>生成文件位置：`dist/apps/web-&lt;version&gt;.tar.gz`</li>
+              <li>解压后目录包含完整静态站点 `web/`</li>
+              <li>适合服务器直接上传、备份和版本归档</li>
+            </ul>
+          </article>
+          <article class="deploy-card">
+            <div class="deploy-top">
+              <h3>宝塔部署方式</h3>
+              <span class="deploy-badge">面板运维友好</span>
+            </div>
+            <p>
+              在宝塔中新建静态站点，把 `dist/apps/web` 或发布包解压后的 `web/`
+              目录内容上传到站点根目录，再用 Nginx 托管即可。
+            </p>
+            <pre class="deploy-code"><code>pnpm build:web
+# 或先生成 web-&lt;version&gt;.tar.gz 后上传解压</code></pre>
+            <ul>
+              <li>站点类型选择静态网站</li>
+              <li>根目录指向构建产物或解压后的 `web/`</li>
+              <li>更新时直接替换文件即可完成发布</li>
+            </ul>
+          </article>
+        </div>
       </section>
 
       <section class="section" id="faq">

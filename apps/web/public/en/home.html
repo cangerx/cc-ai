@@ -442,6 +442,7 @@
       }
 
       .model-grid,
+      .deploy-grid,
       .feature-grid,
       .work-grid,
       .faq {
@@ -453,6 +454,10 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .deploy-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
       .feature-grid,
       .work-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -462,6 +467,74 @@
       .card,
       .faq li {
         padding: 28px;
+      }
+
+      .deploy-card {
+        display: grid;
+        gap: 18px;
+        padding: 28px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: var(--shadow);
+      }
+
+      .deploy-card h3,
+      .deploy-card p,
+      .deploy-card ul,
+      .deploy-card pre {
+        margin: 0;
+      }
+
+      .deploy-card ul {
+        padding-left: 18px;
+        color: var(--muted);
+      }
+
+      .deploy-card li + li {
+        margin-top: 8px;
+      }
+
+      .deploy-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .deploy-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 30px;
+        padding: 0 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(8, 145, 178, 0.2);
+        background: rgba(8, 145, 178, 0.08);
+        color: #0e7490;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .deploy-code {
+        overflow: auto;
+        padding: 14px 16px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--ink);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .deploy-code code {
+        font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono',
+          monospace;
+      }
+
+      .deploy-note {
+        color: #475569;
+        font-size: 13px;
       }
 
       .model-panel strong {
@@ -622,6 +695,7 @@
         }
 
         .model-grid,
+        .deploy-grid,
         .feature-grid,
         .work-grid {
           grid-template-columns: 1fr;
@@ -691,6 +765,12 @@
             data-seo-track="home_nav_click"
             data-seo-target="workflow"
             >Workflow</a
+          >
+          <a
+            href="#deploy"
+            data-seo-track="home_nav_click"
+            data-seo-target="deploy"
+            >Deploy</a
           >
           <a
             href="/user-manual/index.html"
@@ -989,6 +1069,71 @@
             </div>
           </li>
         </ol>
+      </section>
+
+      <section class="section" id="deploy">
+        <div class="section-head">
+          <div>
+            <h2>Three common deployment options</h2>
+            <p class="section-lead">
+              Open-CAI can run in Docker, be shipped as a release package, or
+              be uploaded to a panel-managed static site such as aaPanel.
+            </p>
+          </div>
+        </div>
+        <div class="deploy-grid">
+          <article class="deploy-card">
+            <div class="deploy-top">
+              <h3>Docker deployment</h3>
+              <span class="deploy-badge">Fast launch</span>
+            </div>
+            <p>
+              The repository includes a root `Dockerfile`. It builds the app
+              and serves `dist/apps/web` as a static site on container port
+              `80`.
+            </p>
+            <pre class="deploy-code"><code>docker build -t open-cai .
+docker run -d --name open-cai -p 8080:80 open-cai</code></pre>
+            <p class="deploy-note">
+              Good for cloud servers, container platforms, and fast rollback.
+            </p>
+          </article>
+          <article class="deploy-card">
+            <div class="deploy-top">
+              <h3>Binary one-click install</h3>
+              <span class="deploy-badge">Release package</span>
+            </div>
+            <p>
+              Build the web app, then create a release archive named
+              `web-&lt;version&gt;.tar.gz` for direct upload and extraction.
+            </p>
+            <pre class="deploy-code"><code>pnpm build:web
+node scripts/create-deploy-package.js</code></pre>
+            <ul>
+              <li>Output file: `dist/apps/web-&lt;version&gt;.tar.gz`</li>
+              <li>Extracts to a complete static `web/` site bundle</li>
+              <li>Useful for server upload, backups, and versioned rollout</li>
+            </ul>
+          </article>
+          <article class="deploy-card">
+            <div class="deploy-top">
+              <h3>aaPanel deployment</h3>
+              <span class="deploy-badge">Panel friendly</span>
+            </div>
+            <p>
+              Create a static website in aaPanel, then upload either
+              `dist/apps/web` or the extracted `web/` bundle to the site root
+              and serve it with Nginx.
+            </p>
+            <pre class="deploy-code"><code>pnpm build:web
+# or upload and extract web-&lt;version&gt;.tar.gz</code></pre>
+            <ul>
+              <li>Create a static site project in the panel</li>
+              <li>Point the root directory to the built site files</li>
+              <li>Update by replacing the deployed files</li>
+            </ul>
+          </article>
+        </div>
       </section>
 
       <section class="section" id="faq">
