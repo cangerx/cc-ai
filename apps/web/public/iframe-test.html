@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Opentu iframe 嵌入测试</title>
+    <title>Open-CAI iframe 嵌入测试</title>
     <style>
       body {
         margin: 0;
@@ -178,7 +178,7 @@
   <body>
     <div class="container">
       <div class="header">
-        <h1>🎨 Opentu iframe 嵌入测试</h1>
+        <h1>🎨 Open-CAI iframe 嵌入测试</h1>
         <p>模拟 api.tu-zi.com 和其他域名嵌入当前应用的效果</p>
       </div>
 
@@ -192,7 +192,7 @@
             <strong>状态:</strong> localhost
             任意端口已在白名单中，应该正常显示<br />
             <strong>用途:</strong> 复现 <code>api.tu-zi.com/oepntu</code> 嵌入
-            <code>opentu.ai</code> 的模式
+            <code>ai.772.ee</code> 的模式
           </div>
           <div class="note">
             <strong>推荐本地复现:</strong>
@@ -399,7 +399,7 @@ Content-Security-Policy: frame-ancestors 'self' localhost:* 127.0.0.1:* *.localh
         if (isLocalHost) {
           return `${location.protocol}//${location.hostname}:7200`;
         }
-        return 'https://opentu.ai';
+        return 'https://ai.772.ee';
       }
 
       function normalizeBaseUrl(url) {

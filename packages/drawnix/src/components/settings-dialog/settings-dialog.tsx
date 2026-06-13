@@ -297,7 +297,10 @@ function resolveAutoImageApiCompatibilityForDisplay(
     return 'openai-gpt-image';
   }
 
-  if (normalizedBaseUrl.includes('.tu-zi.com')) {
+  if (
+    normalizedBaseUrl.includes('ai.772.ee') ||
+    normalizedBaseUrl.includes('.tu-zi.com')
+  ) {
     return 'tuzi-gpt-image';
   }
 

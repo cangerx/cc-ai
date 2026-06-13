@@ -120,7 +120,7 @@ describe('cdn-fallback', () => {
       buildCDNUrl(
         jsdelivr,
         '3.0.0',
-        'https://pr.opentu.ai/npm/winbox@0.2.82/dist/winbox.bundle.min.js'
+        'https://ai.772.ee/npm/winbox@0.2.82/dist/winbox.bundle.min.js'
       )
     ).toBe('https://cdn.jsdelivr.net/npm/winbox@0.2.82/dist/winbox.bundle.min.js');
   });
@@ -151,9 +151,9 @@ describe('cdn-fallback', () => {
       });
 
     const result = await fetchFromCDNWithFallback(
-      'https://pr.opentu.ai/assets/yacas-BJ4BC0dw.js',
+      'https://ai.772.ee/assets/yacas-BJ4BC0dw.js',
       '3.0.0',
-      'https://pr.opentu.ai'
+      'https://ai.772.ee'
     );
 
     expect(result?.source).toBe('jsdelivr');

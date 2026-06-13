@@ -1,10 +1,10 @@
 <div align="center">
-  <h1>Opentu (opentu.ai)</h1>
-  <h3>开图 · 以画布为核心的 AI 应用平台</h3>
+  <h1>Open-CAI (ai.772.ee)</h1>
+  <h3>Open-CAI · 以画布为核心的 AI 应用平台</h3>
   <p>连接多模型生成、工具、素材与知识流，让 AI 任务在同一工作区持续执行。</p>
   <p>
     <a href="https://github.com/ljquan/aitu/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
-    <a href="https://opentu.ai"><img src="https://img.shields.io/badge/demo-online-brightgreen.svg" alt="Demo"></a>
+    <a href="https://ai.772.ee"><img src="https://img.shields.io/badge/demo-online-brightgreen.svg" alt="Demo"></a>
   </p>
   <p>
     <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fljquan%2Faitu&project-name=aitu&repository-name=aitu"><img src="https://vercel.com/button" alt="Deploy with Vercel"></a>
@@ -16,8 +16,7 @@
 
 ## 在线体验
 
-- 正式站点：[opentu.ai](https://opentu.ai)
-- 预览实例：[pr.opentu.ai](https://pr.opentu.ai)
+- 正式站点：[ai.772.ee](https://ai.772.ee)
 
 ## 产品展示
 
@@ -77,7 +76,7 @@ pnpm manual:build      # 生成用户手册
 ```text
 aitu/
 ├── apps/
-│   ├── web/                 # Opentu Web 应用与 Service Worker
+│   ├── web/                 # Open-CAI Web 应用与 Service Worker
 │   └── web-e2e/             # Playwright E2E 与手册生成脚本
 ├── packages/
 │   ├── drawnix/             # 画布工作区核心库

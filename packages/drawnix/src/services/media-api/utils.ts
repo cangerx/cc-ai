@@ -56,6 +56,7 @@ function inferProviderType(
     normalized.includes('/openai') ||
     normalized.endsWith('/v1') ||
     normalized.includes('api.openai.com') ||
+    normalized.includes('ai.772.ee') ||
     normalized.includes('.tu-zi.com')
   ) {
     return 'openai-compatible';

@@ -35,6 +35,7 @@ type SharedPricingResponseCacheEntry = {
 
 const TUZI_ROOT_HOST = 'tu-zi.com';
 const TUZI_API_HOST = 'api.tu-zi.com';
+const AI_772EE_HOST = 'ai.772.ee';
 const DEFAULT_GROUP_NAME = 'default';
 export const DEFAULT_TUZI_CNY_PER_USD = 0.7;
 export const MODEL_PRICING_CACHE_TTL_MS = 5 * 60 * 1000;
@@ -71,7 +72,11 @@ export function derivePricingUrl(baseUrl: string): string {
 function isTuziProvider(baseUrl: string): boolean {
   try {
     const hostname = new URL(baseUrl).hostname.toLowerCase();
-    return hostname === TUZI_ROOT_HOST || hostname.endsWith(`.${TUZI_ROOT_HOST}`);
+    return (
+      hostname === AI_772EE_HOST ||
+      hostname === TUZI_ROOT_HOST ||
+      hostname.endsWith(`.${TUZI_ROOT_HOST}`)
+    );
   } catch {
     return false;
   }
@@ -85,13 +90,17 @@ function isTuziPricingUrl(pricingUrl: string): boolean {
     const url = new URL(normalized);
     const hostname = url.hostname.toLowerCase();
     return (
-      (hostname === TUZI_ROOT_HOST || hostname.endsWith(`.${TUZI_ROOT_HOST}`)) &&
+      (hostname === AI_772EE_HOST ||
+        hostname === TUZI_ROOT_HOST ||
+        hostname.endsWith(`.${TUZI_ROOT_HOST}`)) &&
       url.pathname === '/api/pricing'
     );
   } catch {
     return (
       stripPricingUrlSearch(normalized) ===
-      `https://${TUZI_API_HOST}/api/pricing`
+        `https://${TUZI_API_HOST}/api/pricing` ||
+      stripPricingUrlSearch(normalized) ===
+        `https://${AI_772EE_HOST}/api/pricing`
     );
   }
 }

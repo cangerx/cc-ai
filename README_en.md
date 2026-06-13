@@ -1,10 +1,10 @@
 <div align="center">
-  <h1>Opentu (opentu.ai)</h1>
+  <h1>Open-CAI (ai.772.ee)</h1>
   <h3>Canvas-first AI Application Platform</h3>
   <p>Connect models, tools, assets, and knowledge flows so AI work keeps running in one workspace.</p>
   <p>
     <a href="https://github.com/ljquan/aitu/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
-    <a href="https://opentu.ai"><img src="https://img.shields.io/badge/demo-online-brightgreen.svg" alt="Demo"></a>
+    <a href="https://ai.772.ee"><img src="https://img.shields.io/badge/demo-online-brightgreen.svg" alt="Demo"></a>
   </p>
   <p>
     <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fljquan%2Faitu&project-name=aitu&repository-name=aitu"><img src="https://vercel.com/button" alt="Deploy with Vercel"></a>
@@ -16,8 +16,7 @@
 
 ## Live Apps
 
-- Production: [opentu.ai](https://opentu.ai)
-- Preview: [pr.opentu.ai](https://pr.opentu.ai)
+- Production: [ai.772.ee](https://ai.772.ee)
 
 ## Product Showcase
 
@@ -77,7 +76,7 @@ The repository keeps several supported deployment paths:
 ```text
 aitu/
 ├── apps/
-│   ├── web/                 # Opentu Web app and Service Worker
+│   ├── web/                 # Open-CAI Web app and Service Worker
 │   └── web-e2e/             # Playwright E2E and manual generation
 ├── packages/
 │   ├── drawnix/             # Canvas workspace core

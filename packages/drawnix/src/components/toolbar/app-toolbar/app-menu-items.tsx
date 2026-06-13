@@ -329,7 +329,7 @@ export const VersionInfo = () => {
             data-track="toolbar_click_menu_more_versions"
             onClick={(e) => {
               e.stopPropagation();
-              window.open('https://release.opentu.ai/', '_blank');
+              window.open('./versions.html', '_blank');
             }}
           >
             {t('menu.more')}

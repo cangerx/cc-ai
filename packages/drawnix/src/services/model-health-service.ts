@@ -284,7 +284,11 @@ export function isTuziApiUrl(baseUrl: string): boolean {
                 : `https://${trimmed}`
         );
         const hostname = url.hostname.toLowerCase();
-        return hostname === 'tu-zi.com' || hostname.endsWith('.tu-zi.com');
+        return (
+            hostname === 'ai.772.ee' ||
+            hostname === 'tu-zi.com' ||
+            hostname.endsWith('.tu-zi.com')
+        );
     } catch {
         return false;
     }

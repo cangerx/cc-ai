@@ -66,9 +66,11 @@ export const TUZI_MIX_PROVIDER_PROFILE_ID = 'tuzi-mix';
 export const TUZI_CODEX_PROVIDER_PROFILE_ID = 'tuzi-codex';
 export const TUZI_BUSINESS_PROVIDER_PROFILE_ID = 'tuzi-business';
 export const TUZI_PROVIDER_ICON_URL = '/logo-tuzi.png';
-export const TUZI_PROVIDER_DEFAULT_BASE_URL = 'https://api.tu-zi.com/v1';
+export const TUZI_PROVIDER_DEFAULT_BASE_URL = 'https://ai.772.ee/v1';
 export const TUZI_BUSINESS_PROVIDER_DEFAULT_BASE_URL =
   'https://business.tu-zi.com/v1';
+const LEGACY_TUZI_PROVIDER_DEFAULT_BASE_URL = 'https://api.tu-zi.com/v1';
+const LEGACY_TUZI_PROVIDER_ROOT_URL = 'https://api.tu-zi.com/';
 export const TUZI_DEFAULT_PROVIDER_NAME = 'default 分组';
 export const TUZI_ORIGINAL_PROVIDER_NAME = '原价分组';
 export const TUZI_MIX_PROVIDER_NAME = 'gemini-mix 分组';
@@ -408,7 +410,11 @@ class SettingsManager {
           : `https://${trimmed}`
       );
       const hostname = url.hostname.toLowerCase();
-      return hostname === 'tu-zi.com' || hostname.endsWith('.tu-zi.com');
+      return (
+        hostname === 'ai.772.ee' ||
+        hostname === 'tu-zi.com' ||
+        hostname.endsWith('.tu-zi.com')
+      );
     } catch {
       return false;
     }
@@ -430,6 +436,35 @@ class SettingsManager {
     } catch {
       return undefined;
     }
+  }
+
+  private normalizeLegacyDefaultBaseUrl(value: unknown): string {
+    if (typeof value !== 'string') {
+      return '';
+    }
+
+    const trimmed = value.trim().replace(/\/+$/, '');
+    if (
+      trimmed === LEGACY_TUZI_PROVIDER_DEFAULT_BASE_URL.replace(/\/+$/, '') ||
+      trimmed === LEGACY_TUZI_PROVIDER_ROOT_URL.replace(/\/+$/, '')
+    ) {
+      return TUZI_PROVIDER_DEFAULT_BASE_URL;
+    }
+
+    return value;
+  }
+
+  private normalizeLegacyProviderHomepageUrl(
+    value: unknown
+  ): string | undefined {
+    const normalized = this.normalizeHomepageUrl(value);
+    if (!normalized) {
+      return undefined;
+    }
+
+    return normalized === LEGACY_TUZI_PROVIDER_ROOT_URL
+      ? 'https://ai.772.ee/'
+      : normalized;
   }
 
   private shouldMigrateLegacyDefaultImageApiCompatibility(
@@ -512,7 +547,9 @@ class SettingsManager {
       id: LEGACY_DEFAULT_PROVIDER_PROFILE_ID,
       name: TUZI_DEFAULT_PROVIDER_NAME,
       iconUrl: TUZI_PROVIDER_ICON_URL,
-      homepageUrl: this.normalizeHomepageUrl(profile?.homepageUrl),
+      homepageUrl: this.normalizeLegacyProviderHomepageUrl(
+        profile?.homepageUrl
+      ),
       providerType,
       baseUrl,
       apiKey: gemini.apiKey || '',
@@ -548,8 +585,8 @@ class SettingsManager {
       name: TUZI_ORIGINAL_PROVIDER_NAME,
       iconUrl: TUZI_PROVIDER_ICON_URL,
       homepageUrl:
-        this.normalizeHomepageUrl(profile?.homepageUrl) ||
-        'https://api.tu-zi.com/',
+        this.normalizeLegacyProviderHomepageUrl(profile?.homepageUrl) ||
+        'https://ai.772.ee/',
       providerType,
       baseUrl,
       apiKey: typeof profile?.apiKey === 'string' ? profile.apiKey : '',
@@ -589,8 +626,8 @@ class SettingsManager {
       name: TUZI_MIX_PROVIDER_NAME,
       iconUrl: TUZI_PROVIDER_ICON_URL,
       homepageUrl:
-        this.normalizeHomepageUrl(profile?.homepageUrl) ||
-        'https://api.tu-zi.com/',
+        this.normalizeLegacyProviderHomepageUrl(profile?.homepageUrl) ||
+        'https://ai.772.ee/',
       providerType,
       baseUrl,
       apiKey: typeof profile?.apiKey === 'string' ? profile.apiKey : '',
@@ -630,8 +667,8 @@ class SettingsManager {
       name: TUZI_CODEX_PROVIDER_NAME,
       iconUrl: TUZI_PROVIDER_ICON_URL,
       homepageUrl:
-        this.normalizeHomepageUrl(profile?.homepageUrl) ||
-        'https://api.tu-zi.com/',
+        this.normalizeLegacyProviderHomepageUrl(profile?.homepageUrl) ||
+        'https://ai.772.ee/',
       providerType,
       baseUrl,
       apiKey: typeof profile?.apiKey === 'string' ? profile.apiKey : '',
@@ -754,8 +791,7 @@ class SettingsManager {
         }
         usedIds.add(id);
 
-        const baseUrl =
-          typeof profile.baseUrl === 'string' ? profile.baseUrl : '';
+        const baseUrl = this.normalizeLegacyDefaultBaseUrl(profile.baseUrl);
         const providerType = this.normalizeProviderType(
           baseUrl,
           profile.providerType
@@ -768,7 +804,9 @@ class SettingsManager {
               ? profile.name.trim()
               : `供应商 ${index + 1}`,
           iconUrl: normalizeNullableString(profile.iconUrl) || undefined,
-          homepageUrl: this.normalizeHomepageUrl(profile.homepageUrl),
+          homepageUrl: this.normalizeLegacyProviderHomepageUrl(
+            profile.homepageUrl
+          ),
           providerType,
           baseUrl,
           apiKey: typeof profile.apiKey === 'string' ? profile.apiKey : '',
@@ -922,6 +960,9 @@ class SettingsManager {
       gemini: {
         ...DEFAULT_SETTINGS.gemini,
         ...(mergedSettings.gemini || {}),
+        baseUrl: this.normalizeLegacyDefaultBaseUrl(
+          mergedSettings.gemini?.baseUrl
+        ),
       },
       tts: {
         ...DEFAULT_SETTINGS.tts,
