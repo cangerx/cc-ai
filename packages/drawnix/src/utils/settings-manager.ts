@@ -68,7 +68,7 @@ export const TUZI_BUSINESS_PROVIDER_PROFILE_ID = 'tuzi-business';
 export const TUZI_PROVIDER_ICON_URL = '/logo-tuzi.png';
 export const TUZI_PROVIDER_DEFAULT_BASE_URL = 'https://ai.772.ee/v1';
 export const TUZI_BUSINESS_PROVIDER_DEFAULT_BASE_URL =
-  'https://business.tu-zi.com/v1';
+  'https://ai.772.ee/v1';
 const LEGACY_TUZI_PROVIDER_DEFAULT_BASE_URL = 'https://api.tu-zi.com/v1';
 const LEGACY_TUZI_PROVIDER_ROOT_URL = 'https://api.tu-zi.com/';
 export const TUZI_DEFAULT_PROVIDER_NAME = 'default 分组';
@@ -709,7 +709,7 @@ class SettingsManager {
       iconUrl: TUZI_PROVIDER_ICON_URL,
       homepageUrl:
         this.normalizeHomepageUrl(profile?.homepageUrl) ||
-        'https://business.tu-zi.com/',
+        'https://ai.772.ee/',
       providerType,
       baseUrl,
       apiKey: typeof profile?.apiKey === 'string' ? profile.apiKey : '',
@@ -729,7 +729,7 @@ class SettingsManager {
       pricingUrl:
         typeof profile?.pricingUrl === 'string' && profile.pricingUrl.trim()
           ? profile.pricingUrl.trim()
-          : 'https://business.tu-zi.com/api/pricing',
+          : 'https://ai.772.ee/api/pricing',
       pricingGroup:
         typeof profile?.pricingGroup === 'string' && profile.pricingGroup.trim()
           ? profile.pricingGroup.trim()

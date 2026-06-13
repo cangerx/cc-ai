@@ -201,9 +201,9 @@ describe('settings-manager', () => {
     });
     expect(tuziBusinessProfile).toMatchObject({
       name: 'Business',
-      baseUrl: 'https://business.tu-zi.com/v1',
-      homepageUrl: 'https://business.tu-zi.com/',
-      pricingUrl: 'https://business.tu-zi.com/api/pricing',
+      baseUrl: 'https://ai.772.ee/v1',
+      homepageUrl: 'https://ai.772.ee/',
+      pricingUrl: 'https://ai.772.ee/api/pricing',
       imageApiCompatibility: LEGACY_DEFAULT_PROVIDER_IMAGE_API_COMPATIBILITY,
     });
     expect(
@@ -511,8 +511,8 @@ describe('settings-manager', () => {
         if (profile.id === TUZI_BUSINESS_PROVIDER_PROFILE_ID) {
           return {
             ...profile,
-            homepageUrl: 'business.tu-zi.com/dashboard',
-            pricingUrl: 'https://business.tu-zi.com/api/pricing?group=vip',
+            homepageUrl: 'ai.772.ee/dashboard',
+            pricingUrl: 'https://ai.772.ee/api/pricing?group=vip',
             imageApiCompatibility: 'auto' as const,
           };
         }
@@ -560,8 +560,8 @@ describe('settings-manager', () => {
         (profile) => profile.id === TUZI_BUSINESS_PROVIDER_PROFILE_ID
       )
     ).toMatchObject({
-      homepageUrl: 'https://business.tu-zi.com/dashboard',
-      pricingUrl: 'https://business.tu-zi.com/api/pricing?group=vip',
+      homepageUrl: 'https://ai.772.ee/dashboard',
+      pricingUrl: 'https://ai.772.ee/api/pricing?group=vip',
       imageApiCompatibility: 'auto',
     });
   });
@@ -632,7 +632,7 @@ describe('settings-manager', () => {
             id: 'tuzi-business',
             name: 'Business',
             providerType: 'openai-compatible',
-            baseUrl: 'https://business.tu-zi.com/v1',
+            baseUrl: 'https://ai.772.ee/v1',
             apiKey: 'business-key',
             authType: 'bearer',
             imageApiCompatibility: 'auto',

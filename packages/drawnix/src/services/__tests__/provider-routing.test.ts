@@ -491,7 +491,7 @@ describe('provider routing', () => {
       id: 'provider-c',
       name: 'Provider C',
       providerType: 'gemini-compatible' as const,
-      baseUrl: 'https://business.tu-zi.com/v1',
+      baseUrl: 'https://ai.772.ee/v1',
       apiKey: 'key-c',
       authType: 'bearer' as const,
     };
@@ -539,7 +539,7 @@ describe('provider routing', () => {
         id: 'provider-business',
         name: 'Business',
         providerType: 'openai-compatible',
-        baseUrl: 'https://business.tu-zi.com/v1',
+        baseUrl: 'https://ai.772.ee/v1',
         apiKey: 'business-key',
         authType: 'bearer',
         imageApiCompatibility: 'auto',

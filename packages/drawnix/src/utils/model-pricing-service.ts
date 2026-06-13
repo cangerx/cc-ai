@@ -298,7 +298,7 @@ function computeNewApiModelPrice(
     };
   }
 
-  // business.tu-zi.com 的 token 模型可能是 quota_type=1，但仍通过 model_ratio 计价。
+  // ai.772.ee 的 token 模型可能是 quota_type=1，但仍通过 model_ratio 计价。
   if (modelRatio > 0) {
     const completionRatio =
       toOptionalFiniteNumber(

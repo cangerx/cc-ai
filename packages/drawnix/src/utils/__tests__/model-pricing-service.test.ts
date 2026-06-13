@@ -51,7 +51,7 @@ describe('model-pricing-service', () => {
       getPricingCacheTtlMs('https://api.tu-zi.com/api/pricing?group=default')
     ).toBe(TUZI_PRICING_CACHE_TTL_MS);
     expect(
-      getPricingCacheTtlMs('https://business.tu-zi.com/api/pricing')
+      getPricingCacheTtlMs('https://ai.772.ee/api/pricing')
     ).toBe(TUZI_PRICING_CACHE_TTL_MS);
   });
 

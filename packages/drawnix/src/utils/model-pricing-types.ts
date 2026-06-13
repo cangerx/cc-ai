@@ -76,11 +76,11 @@ export interface NewApiPricingModelInfo {
   /** 兼容旧文档中的单数字段 */
   enable_group?: string[];
   supported_endpoint_types?: Array<string | number>;
-  /** business.tu-zi.com 会把 endpoint 元信息直接放在模型下 */
+  /** ai.772.ee 会把 endpoint 元信息直接放在模型下 */
   endpoints?: Record<string, PricingEndpointInfo | string>;
 }
 
-/** business.tu-zi.com /api/pricing 中按分组覆盖的模型价格表 */
+/** ai.772.ee /api/pricing 中按分组覆盖的模型价格表 */
 export interface NewApiGroupModelPricing {
   quota_type?: Record<string, number>;
   model_quota_type?: Record<string, number>;
