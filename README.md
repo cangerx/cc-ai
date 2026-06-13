@@ -1,7 +1,7 @@
 <div align="center">
-  <h1>Open-CAI (ai.772.ee)</h1>
-  <h3>Open-CAI · 以画布为核心的 AI 应用平台</h3>
-  <p>连接多模型生成、工具、素材与知识流，让 AI 任务在同一工作区持续执行。</p>
+  <h1>Open-CAI</h1>
+  <h3>把生成、思考、结构与交付留在同一块画布</h3>
+  <p>这不是一个只负责“出结果”的 AI 工具，而是一张可持续工作的创作界面。</p>
   <p>
     <a href="https://github.com/ljquan/aitu/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
     <a href="https://ai.772.ee"><img src="https://img.shields.io/badge/demo-online-brightgreen.svg" alt="Demo"></a>
@@ -14,24 +14,40 @@
 
 [English README](./README_en.md)
 
-## 在线体验
+## 项目气质
 
-- 正式站点：[ai.772.ee](https://ai.772.ee)
+Open-CAI 试图把 AI 从“单轮对话”重新带回“连续创作”。
 
-## 产品展示
+在这里，图片不是一次性结果，流程图不是孤立图示，提示词也不是散落的输入记录。它们被放回同一个工作区，彼此关联、相互生长，最终沉淀成一个可以继续编辑、继续扩展、继续交付的作品现场。
+
+如果把传统 AI 工具理解为一扇窗口，那么 Open-CAI 更像一张桌面：你可以在上面摆放模型输出、草图、结构、参考图、任务状态与知识卡片，让创作不再在多个应用之间断裂。
+
+## 在线入口
+
+- [在线体验](https://ai.772.ee)
+
+## 视觉与工作流展示
 
 | 拆分图片 | 流程图 | 思维导图 |
 | --- | --- | --- |
 | ![](./apps/web/public/product_showcase/九宫格拆图.gif) | ![](./apps/web/public/product_showcase/流程图.gif) | ![](./apps/web/public/product_showcase/思维导图.gif) |
 | 语义理解 - 拆分图片 | 语义理解 - 流程图 | 语义理解 - 思维导图 |
 
-## 平台能力
+## 你可以在这里完成什么
 
-- **AI 生成与模型路由**：统一调度图片、视频、音频、文本与 Agent 流程。
-- **画布工作区**：承载 AI 任务、素材、Frame、工具窗口与知识库内容。
-- **任务与素材管理**：通过任务队列、素材库、统一缓存和历史记录复用生成结果。
-- **工具箱与扩展**：支持内部 React 工具、iframe 工具、Skill/Agent 和插件化运行时。
-- **PPT 与内容工作流**：支持 Frame 幻灯片、PPT 导出、Markdown/Mermaid 转换和多媒体编辑。
+- **生成**：统一调度图片、视频、音频、文本与 Agent 工作流，把多模型能力收束到同一个入口。
+- **组织**：画布承载任务、素材、Frame、工具窗口与知识内容，让上下文天然相邻。
+- **推演**：流程图、思维导图、Markdown、Mermaid 与结构化编辑能力共同参与创作，而不是停留在结果展示。
+- **沉淀**：任务队列、素材库、统一缓存与历史记录帮助你把一次输出变成下一次创作的素材。
+- **扩展**：内部 React 工具、iframe 工具、Skill / Agent 与插件化运行时可以继续长出新的工作方式。
+- **交付**：支持 Frame 幻灯片、PPT 导出、多媒体编辑与更接近真实项目流程的内容整理。
+
+## 适合谁
+
+- 想把 AI 图像生成、结构整理和最终交付放在一起的创作者
+- 需要一边生成、一边筛选、一边归档素材的内容团队
+- 希望把工具、任务、知识和作品过程留在一个地方的产品/设计/独立开发者
+- 想二次开发一套 AI 创作工作台的团队或个人
 
 ## 本地开发
 
@@ -65,7 +81,7 @@ pnpm manual:build      # 生成用户手册
 
 ## 部署
 
-项目保留多条部署链路：
+项目保留多条部署链路，既适合快速上线，也适合深度自托管：
 
 - Vercel / Netlify：使用上方一键部署按钮或仓库配置。
 - Docker：使用仓库根目录的 `Dockerfile` 构建静态站点镜像。
@@ -90,6 +106,7 @@ aitu/
 
 ## 文档入口
 
+- [用户手册内容源文件](./docs/user-manual/content/index.mdx)
 - [开发文档索引](./docs/README.md)
 - [贡献指南](./CONTRIBUTING.md)
 - [OpenSpec 说明](./openspec/AGENTS.md)

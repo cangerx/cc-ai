@@ -1,7 +1,7 @@
 <div align="center">
-  <h1>Open-CAI (ai.772.ee)</h1>
-  <h3>Canvas-first AI Application Platform</h3>
-  <p>Connect models, tools, assets, and knowledge flows so AI work keeps running in one workspace.</p>
+  <h1>Open-CAI</h1>
+  <h3>Keep generation, structure, reflection, and delivery on one canvas</h3>
+  <p>Not just an AI tool for outputs, but a working surface where creative context can remain alive.</p>
   <p>
     <a href="https://github.com/ljquan/aitu/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
     <a href="https://ai.772.ee"><img src="https://img.shields.io/badge/demo-online-brightgreen.svg" alt="Demo"></a>
@@ -14,24 +14,40 @@
 
 [中文 README](./README.md)
 
-## Live Apps
+## Project Character
 
-- Production: [ai.772.ee](https://ai.772.ee)
+Open-CAI is built around a simple idea: AI work should not disappear after one reply.
 
-## Product Showcase
+Images, notes, prompts, references, diagrams, tasks, and reusable assets belong in the same visual field. Instead of bouncing between separate tools, you stay inside one workspace where ideas can branch, tighten, reorganize, and eventually become deliverable work.
+
+If a chat tool is a window, Open-CAI is a desk. It gives you room to lay things out, compare them, connect them, and keep the process visible.
+
+## Access
+
+- [Open the hosted workspace](https://ai.772.ee)
+
+## Visual Showcase
 
 | Split Images | Flowcharts | Mind Maps |
 | --- | --- | --- |
 | ![](./apps/web/public/product_showcase/九宫格拆图.gif) | ![](./apps/web/public/product_showcase/流程图.gif) | ![](./apps/web/public/product_showcase/思维导图.gif) |
 | Semantic image splitting | Semantic flowcharts | Semantic mind maps |
 
-## Platform Capabilities
+## What It Enables
 
-- **AI generation and routing**: images, video, audio, text, and Agent flows from one workspace.
-- **Canvas workspace**: AI tasks, assets, frames, tool windows, and knowledge-base content share the same surface.
-- **Task and asset management**: queues, media library, unified cache, and history make outputs reusable.
-- **Toolbox and extensions**: internal React tools, iframe tools, Skill/Agent modules, and plugin runtime support.
-- **PPT and content workflows**: frame slideshows, PPT export, Markdown/Mermaid conversion, and media editing.
+- **Generate**: route images, video, audio, text, and Agent-style flows from one surface.
+- **Organize**: keep tasks, assets, frames, tool windows, and knowledge content adjacent to the work itself.
+- **Reason**: use flowcharts, mind maps, Markdown, Mermaid, and structured editing as part of creation, not just documentation afterward.
+- **Reuse**: task queues, media libraries, unified caching, and history help turn one output into material for the next.
+- **Extend**: internal React tools, iframe tools, Skills, Agents, and plugin runtime support more specialized workflows.
+- **Deliver**: frame-based slides, PPT export, media editing, and presentation-oriented organization support real project handoff.
+
+## Who It Fits
+
+- Creators who want AI image generation, structure, and delivery in one place
+- Teams that need to generate, compare, refine, and archive creative material continuously
+- Product, design, and independent development workflows that benefit from visible context
+- Builders who want an open canvas-based AI workspace they can adapt and self-host
 
 ## Local Development
 
@@ -65,7 +81,7 @@ pnpm manual:build      # Generate user manual
 
 ## Deployment
 
-The repository keeps several supported deployment paths:
+The repository supports multiple deployment paths, from quick launches to deeper self-hosting:
 
 - Vercel / Netlify: use the one-click buttons above or the included static hosting config.
 - Docker: build the static-site image with the root `Dockerfile`.
@@ -90,6 +106,7 @@ aitu/
 
 ## Documentation
 
+- [User manual source](./docs/user-manual/content/index.mdx)
 - [Development docs](./docs/README.md)
 - [Contributing guide](./CONTRIBUTING.md)
 - [OpenSpec instructions](./openspec/AGENTS.md)
