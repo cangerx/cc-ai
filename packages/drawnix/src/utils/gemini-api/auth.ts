@@ -46,15 +46,11 @@ export function promptForApiKey(): Promise<string | null> {
       </p>
       <p style="margin: 0 0 8px 0; color: #666; line-height: 1.5;">
         您可以从以下地址获取 API Key（新建令牌渠道分组选择default）:
-        <a href="https://api.tu-zi.com/token" target="_blank" rel="noopener noreferrer" 
+        <a href="https://ai.772.ee/token" target="_blank" rel="noopener noreferrer" 
            style="color: #0052d9; text-decoration: none;">
-          https://api.tu-zi.com/token
+          https://ai.772.ee/token
         </a>
       </p>
-      <a href="https://www.bilibili.com/video/BV1k4PqzPEKz/" target="_blank" rel="noopener noreferrer"
-         style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: #fb7299; color: #fff; border-radius: 4px; font-size: 14px; text-decoration: none; margin-bottom: 16px;">
-        ▶ 观看视频教程 (B站)
-      </a>
       <input type="text" id="apiKeyInput" placeholder="请输入 API Key" 
              style="width: 100%; padding: 8px 12px; border: 1px solid #d9d9d9; border-radius: 4px; font-size: 14px; box-sizing: border-box; margin-bottom: 16px;" />
       <div style="display: flex; gap: 8px; justify-content: flex-end;">

@@ -168,7 +168,7 @@ export const fluxImageAdapter: ImageModelAdapter = {
   id: 'flux-image-adapter',
   label: 'Flux Image',
   kind: 'image',
-  docsUrl: 'https://tuzi-api.apifox.cn',
+  docsUrl: 'https://ai.772.ee',
   matchProtocols: ['flux.task'],
   matchRequestSchemas: ['flux.image.polling-json'],
   matchVendors: [ModelVendor.FLUX],

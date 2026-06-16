@@ -434,7 +434,7 @@ export const klingAdapter: VideoModelAdapter = {
   id: 'kling-video-adapter',
   label: 'Kling Video',
   kind: 'video',
-  docsUrl: 'https://tuzi-api.apifox.cn',
+  docsUrl: 'https://ai.772.ee',
   matchProtocols: ['kling.video'],
   matchRequestSchemas: ['kling.video.auto-action-json'],
   supportedModels: [

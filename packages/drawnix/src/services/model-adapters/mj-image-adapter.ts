@@ -104,7 +104,7 @@ export const mjImageAdapter: ImageModelAdapter = {
   id: 'mj-image-adapter',
   label: 'Midjourney Image',
   kind: 'image',
-  docsUrl: 'https://tuzi-api.apifox.cn',
+  docsUrl: 'https://ai.772.ee',
   matchProtocols: ['mj.imagine'],
   matchRequestSchemas: ['mj.imagine.base64-array'],
   matchVendors: [ModelVendor.MIDJOURNEY],

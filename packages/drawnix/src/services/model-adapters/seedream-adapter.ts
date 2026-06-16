@@ -118,7 +118,7 @@ export const seedreamImageAdapter: ImageModelAdapter = {
   id: 'seedream-image-adapter',
   label: 'Seedream Image',
   kind: 'image',
-  docsUrl: 'https://tuzi-api.apifox.cn',
+  docsUrl: 'https://ai.772.ee',
   matchProtocols: ['openai.images.generations'],
   matchRequestSchemas: ['openai.image.seedream-json'],
   matchTags: ['seedream'],

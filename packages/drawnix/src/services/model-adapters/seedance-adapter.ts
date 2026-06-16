@@ -199,7 +199,7 @@ export const seedanceVideoAdapter: VideoModelAdapter = {
   id: 'seedance-video-adapter',
   label: 'Seedance Video',
   kind: 'video',
-  docsUrl: 'https://tuzi-api.apifox.cn',
+  docsUrl: 'https://ai.772.ee',
   matchProtocols: ['seedance.task'],
   matchRequestSchemas: ['seedance.video.form-auto'],
   supportedModels: SEEDANCE_MODELS,

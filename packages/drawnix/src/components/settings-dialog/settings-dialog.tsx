@@ -2294,7 +2294,7 @@ export const SettingsDialog = ({
                       您可以从以下地址获取 API Key:
                       <br />
                       <a
-                        href="https://api.tu-zi.com/token"
+                        href="https://ai.772.ee/token"
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{
@@ -2304,34 +2304,8 @@ export const SettingsDialog = ({
                           marginBottom: 8,
                         }}
                       >
-                        api.tu-zi.com/token
+                        ai.772.ee/token
                       </a>
-                      <div
-                        style={{
-                          position: 'relative',
-                          width: '100%',
-                          paddingTop: '56.25%',
-                          marginTop: 8,
-                          borderRadius: 8,
-                          overflow: 'hidden',
-                          backgroundColor: '#000',
-                          boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
-                        }}
-                      >
-                        <iframe
-                          title="Bilibili tutorial video"
-                          src="//player.bilibili.com/player.html?isOutside=true&aid=116171584049629&bvid=BV1k4PqzPEKz&cid=36455319822&p=1"
-                          allowFullScreen={true}
-                          style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '100%',
-                            border: 0,
-                          }}
-                        ></iframe>
-                      </div>
                     </div>
                   }
                   placement="top"

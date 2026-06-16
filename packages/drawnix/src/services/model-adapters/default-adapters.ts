@@ -141,7 +141,7 @@ export const geminiImageAdapter: ImageModelAdapter = {
   id: 'gemini-image-adapter',
   label: 'Gemini Image',
   kind: 'image',
-  docsUrl: 'https://tuzi-api.apifox.cn',
+  docsUrl: 'https://ai.772.ee',
   matchProtocols: [
     'openai.images.generations',
     'openai.async.media',
@@ -219,7 +219,7 @@ export const geminiVideoAdapter: VideoModelAdapter = {
   id: 'gemini-video-adapter',
   label: 'Gemini Video',
   kind: 'video',
-  docsUrl: 'https://tuzi-api.apifox.cn',
+  docsUrl: 'https://ai.772.ee',
   matchProtocols: ['openai.async.video'],
   matchRequestSchemas: ['openai.video.form-input-reference'],
   matchPredicate(modelConfig) {
@@ -295,7 +295,7 @@ export const sunoAudioAdapter: AudioModelAdapter = {
   id: 'suno-audio-adapter',
   label: 'Suno Audio',
   kind: 'audio',
-  docsUrl: 'https://tuzi-api.apifox.cn',
+  docsUrl: 'https://ai.772.ee',
   matchProtocols: ['tuzi.suno.music'],
   matchRequestSchemas: ['tuzi.suno.music.submit'],
   matchModels: ['suno_music'],
