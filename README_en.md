@@ -3,7 +3,7 @@
   <h3>Keep generation, structure, reflection, and delivery on one canvas</h3>
   <p>Not just an AI tool for outputs, but a working surface where creative context can stay alive.</p>
   <p>
-    <a href="https://github.com/ljquan/aitu/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-16a34a.svg" alt="License"></a>
+    <a href="https://github.com/cangerx/cc-ai/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-16a34a.svg" alt="License"></a>
     <img src="https://img.shields.io/badge/Open%20Source-Canvas%20Workspace-f97316.svg" alt="Open Source Canvas Workspace">
     <img src="https://img.shields.io/badge/Support-Self--Hosted-0f172a.svg" alt="Self Hosted">
   </p>

@@ -3,7 +3,7 @@
   <h3>让生成、思考、结构与交付留在同一块画布</h3>
   <p>不是只负责“出结果”的 AI 工具，而是一张可以持续工作的创作桌面。</p>
   <p>
-    <a href="https://github.com/ljquan/aitu/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-16a34a.svg" alt="License"></a>
+    <a href="https://github.com/cangerx/cc-ai/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-16a34a.svg" alt="License"></a>
     <img src="https://img.shields.io/badge/Open%20Source-Canvas%20Workspace-f97316.svg" alt="Open Source Canvas Workspace">
     <img src="https://img.shields.io/badge/Support-Self--Hosted-0f172a.svg" alt="Self Hosted">
   </p>

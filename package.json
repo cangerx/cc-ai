@@ -4,13 +4,13 @@
   "license": "MIT",
   "packageManager": "pnpm@10.21.0",
   "description": "Opentu - An open-source whiteboard tool with AI-powered image/video creation, mind mapping, flowcharts, and freehand drawing",
-  "homepage": "https://opentu.ai",
+  "homepage": "https://ai.772.ee",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ljquan/aitu.git"
+    "url": "https://github.com/cangerx/cc-ai.git"
   },
   "bugs": {
-    "url": "https://github.com/ljquan/aitu/issues"
+    "url": "https://github.com/cangerx/cc-ai/issues"
   },
   "keywords": [
     "whiteboard",
