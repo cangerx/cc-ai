@@ -7,7 +7,7 @@ import type { BackupManifest, ExportResult } from './types';
 import {
   PART_SIZE_THRESHOLD,
   SharedBackupPartManager,
-} from '/sw-debug/shared/backup-part-manager-core.js';
+} from '@sw-debug-shared/backup-part-manager-core';
 
 export { PART_SIZE_THRESHOLD };
 

@@ -783,6 +783,42 @@ function resolveManualChunk(
 }
 
 /**
+ * Vite 插件：将共享备份核心同步进 public/sw-debug/shared
+ *
+ * 唯一数据源是 apps/web/sw-debug-shared/*.js（在 public 外，供主应用通过
+ * alias 正常 import）。独立调试页（public/sw-debug/*.js）以静态资源方式
+ * 相对引用 ./shared/*.js，需要这些文件存在于 public 内。此插件在 dev 启动
+ * 与 build 开始时把唯一源复制进 public，避免重复维护两份代码。
+ * public 内的副本是生成产物，已在 .gitignore 中忽略。
+ */
+function syncSwDebugSharedPlugin(): Plugin {
+  const sourceDir = path.resolve(__dirname, 'sw-debug-shared');
+  const targetDir = path.resolve(__dirname, 'public/sw-debug/shared');
+
+  const sync = () => {
+    if (!fs.existsSync(sourceDir)) return;
+    fs.mkdirSync(targetDir, { recursive: true });
+    for (const file of fs.readdirSync(sourceDir)) {
+      if (!file.endsWith('.js')) continue;
+      fs.copyFileSync(
+        path.join(sourceDir, file),
+        path.join(targetDir, file)
+      );
+    }
+  };
+
+  return {
+    name: 'sync-sw-debug-shared',
+    buildStart() {
+      sync();
+    },
+    configureServer() {
+      sync();
+    },
+  };
+}
+
+/**
  * Vite 插件：生成 precache-manifest.json
  * 在构建完成后扫描输出目录，生成需要预缓存的静态资源清单
  */
@@ -1199,6 +1235,7 @@ export default defineConfig({
   plugins: [
     react(),
     nxViteTsPaths(),
+    syncSwDebugSharedPlugin(),
     visualizer({
       open: false,
       filename: path.resolve(__dirname, '../../dist/apps/web/stats.html'),
@@ -1215,6 +1252,21 @@ export default defineConfig({
   resolve: {
     alias: [
       ...diagramEngineAliases,
+      // 主应用从 public 外的唯一源导入共享备份核心。不能用 /sw-debug/... 这种
+      // 以 / 开头的说明符——Vite 会在 alias 前就把它当作 public URL 拦截。
+      // 改用裸说明符 @sw-debug-shared/*，由此 alias 解析到 public 外的真实文件
+      // （见 syncSwDebugSharedPlugin，独立调试页另用相对路径加载 public 副本）。
+      {
+        find: '@sw-debug-shared/backup-core',
+        replacement: path.resolve(__dirname, 'sw-debug-shared/backup-core.js'),
+      },
+      {
+        find: '@sw-debug-shared/backup-part-manager-core',
+        replacement: path.resolve(
+          __dirname,
+          'sw-debug-shared/backup-part-manager-core.js'
+        ),
+      },
       {
         find: /^tdesign-react$/,
         replacement: path.resolve(

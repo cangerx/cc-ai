@@ -56,3 +56,6 @@ apps/web-e2e/test-results/
 apps/web-e2e/playwright-report/
 test-results/
 apps/web/public/user-manual/
+
+# 共享备份核心的生成副本（唯一源在 apps/web/sw-debug-shared/，由 vite 插件复制）
+apps/web/public/sw-debug/shared/
